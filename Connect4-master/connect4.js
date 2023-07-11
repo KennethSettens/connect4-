@@ -22,20 +22,20 @@ class C4Board {
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + c.toString();
                 tile.classList.add("tile");
-                tile.addEventListener("click", this.setPiece.bind(this));
-                //why does bind need to go here
+                tile.addEventListener("click", (event) => this.setPiece(event));// the original just did set
+        
                 document.getElementById("board").append(tile);
             }
             this.board.push(row);
         }
     }
-    setPiece() {
+
+    setPiece(event) {
         if (this.gameOver) {
             return;
         }
-    
-        let coords = this.id.split("-");
-        // the this doesn't work here 
+        let coords = event.target.id.split("-");
+         
         
         let r = parseInt(coords[0]);
         let c = parseInt(coords[1]);
@@ -50,7 +50,7 @@ class C4Board {
         let tile = document.getElementById(r.toString() + "-" + c.toString());
         if (this.currPlayer == this.playerRed) {
             tile.classList.add("red-piece");
-            currPlayer = this.playerYellow;
+            this.currPlayer = this.playerYellow;
         }
         else {
             tile.classList.add("yellow-piece");
@@ -60,10 +60,10 @@ class C4Board {
         r -= 1; 
         this.heights[c] = r; 
     
-        checkWinner();
+        this.checkWinner();
     }
     checkWinner() {
-         
+        const { rows, columns, board } = this;
          for (let r = 0; r < rows; r++) {
              for (let c = 0; c < columns - 3; c++){
                 if (board[r][c] != ' ') {
