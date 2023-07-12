@@ -12,20 +12,21 @@ class C4Board {
 
     setGame() {
         this.heights = [5, 5, 5, 5, 5, 5, 5];
-    
+        let boardBackground = document.createElement("div");
         for (let r = 0; r < this.rows; r++) {
             let row = [];
             for (let c = 0; c < this.columns; c++) {
-                
                 row.push(' ');
-                
+                boardBackground.classList.add("container");
+    
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + c.toString();
                 tile.classList.add("tile");
-                tile.addEventListener("click", (event) => this.setPiece(event));// the original just did set
-        
-                document.getElementById("board").append(tile);
+                tile.addEventListener("click", (event) => this.setPiece(event));
+    
+                boardBackground.appendChild(tile); // Append tile to boardBackground
             }
+            document.getElementById("container").appendChild(boardBackground); // Append boardBackground to container
             this.board.push(row);
         }
     }
@@ -68,7 +69,7 @@ class C4Board {
              for (let c = 0; c < columns - 3; c++){
                 if (board[r][c] != ' ') {
                     if (board[r][c] == board[r][c+1] && board[r][c+1] == board[r][c+2] && board[r][c+2] == board[r][c+3]) {
-                        setWinner(r, c);
+                        this.setWinner(r, c);
                         return;
                     }
                 }
@@ -80,7 +81,7 @@ class C4Board {
             for (let r = 0; r < rows - 3; r++) {
                 if (board[r][c] != ' ') {
                     if (board[r][c] == board[r+1][c] && board[r+1][c] == board[r+2][c] && board[r+2][c] == board[r+3][c]) {
-                        setWinner(r, c);
+                        this.setWinner(r, c);
                         return;
                     }
                 }
@@ -92,7 +93,7 @@ class C4Board {
             for (let c = 0; c < columns - 3; c++) {
                 if (board[r][c] != ' ') {
                     if (board[r][c] == board[r+1][c+1] && board[r+1][c+1] == board[r+2][c+2] && board[r+2][c+2] == board[r+3][c+3]) {
-                        setWinner(r, c);
+                        this.setWinner(r, c);
                         return;
                     }
                 }
@@ -104,7 +105,7 @@ class C4Board {
             for (let c = 0; c < columns - 3; c++) {
                 if (board[r][c] != ' ') {
                     if (board[r][c] == board[r-1][c+1] && board[r-1][c+1] == board[r-2][c+2] && board[r-2][c+2] == board[r-3][c+3]) {
-                        setWinner(r, c);
+                        this.setWinner(r, c);
                         return;
                     }
                 }
@@ -124,3 +125,5 @@ class C4Board {
 
 const game = new C4Board();
 game.setGame();
+// const game2 = new C4Board();
+// game2.setGame();
