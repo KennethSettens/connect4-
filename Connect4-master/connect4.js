@@ -1,13 +1,19 @@
-class C4Board {
-    constructor() {
-        this.playerRed = "R";
-        this.playerYellow = "Y";
-        this.currPlayer = this.playerRed;
+class Player{
+    constructor(color){
+        this.color = color;
+    }
+}
+
+class ConnectFourBoard {
+    constructor(player1, player2) {
+        this.players = [player1, player2];
+        this.currPlayer = player1;
         this.gameOver = false;
         this.board = [];
         this.rows = 6;
         this.columns = 7;
         this.heights = [];
+        this.setGame();
     }
 
     setGame() {
@@ -17,12 +23,12 @@ class C4Board {
             let row = [];
             for (let c = 0; c < this.columns; c++) {
                 row.push(' ');
-                boardBackground.classList.add("container");
+                boardBackground.classList.add("board");
     
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + c.toString();
                 tile.classList.add("tile");
-                tile.addEventListener("click", (event) => this.setPiece(event));
+                tile.addEventListener("click", (event) => this.setPiece(event).bind(this));
     
                 boardBackground.appendChild(tile); // Append tile to boardBackground
             }
@@ -49,13 +55,13 @@ class C4Board {
     
         this.board[r][c] = this.currPlayer; 
         let tile = document.getElementById(r.toString() + "-" + c.toString());
-        if (this.currPlayer == this.playerRed) {
+        if (this.currPlayer == this.players[0]) {
             tile.classList.add("red-piece");
-            this.currPlayer = this.playerYellow;
+            this.currPlayer = this.players[1];
         }
         else {
             tile.classList.add("yellow-piece");
-            this.currPlayer = this.playerRed;
+            this.currPlayer = this.players[0];
         }
     
         r -= 1; 
@@ -65,8 +71,8 @@ class C4Board {
     }
     checkWinner() {
         const { rows, columns, board } = this;
-         for (let r = 0; r < rows; r++) {
-             for (let c = 0; c < columns - 3; c++){
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < columns - 3; c++){
                 if (board[r][c] != ' ') {
                     if (board[r][c] == board[r][c+1] && board[r][c+1] == board[r][c+2] && board[r][c+2] == board[r][c+3]) {
                         this.setWinner(r, c);
@@ -114,7 +120,7 @@ class C4Board {
     }
     setWinner(r, c) {
         let winner = document.getElementById("winner");
-        if (this.board[r][c] == this.playerRed) {
+        if (this.board[r][c] == this.players[0]) {
             winner.innerText = "Red Wins";             
         } else {
             winner.innerText = "Yellow Wins";
@@ -122,8 +128,14 @@ class C4Board {
         this.gameOver = true;
     }
 }
+const player1 = new Player("red");
+const player2 = new Player("yellow");
+const game = new ConnectFourBoard(player1, player2);
 
-const game = new C4Board();
-game.setGame();
-// const game2 = new C4Board();
-// game2.setGame();
+
+//clicking on second board puts the click on the first board.
+const player3 = new Player("red");
+const player4 = new Player("yellow");
+const game2 = new ConnectFourBoard(player1, player2);
+
+
