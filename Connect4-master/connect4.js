@@ -28,7 +28,7 @@ class ConnectFourBoard {
                 let tile = document.createElement("div");
                 tile.id = r.toString() + "-" + c.toString();
                 tile.classList.add("tile");
-                tile.addEventListener("click", (event) => this.setPiece(event).bind(this));
+                tile.addEventListener("click", (event) => this.setPiece(event));
     
                 boardBackground.appendChild(tile); // Append tile to boardBackground
             }
@@ -134,8 +134,8 @@ const game = new ConnectFourBoard(player1, player2);
 
 
 //clicking on second board puts the click on the first board.
-const player3 = new Player("red");
-const player4 = new Player("yellow");
-const game2 = new ConnectFourBoard(player1, player2);
+// const player3 = new Player("red");
+// const player4 = new Player("yellow");
+// const game2 = new ConnectFourBoard(player1, player2);
 
 
